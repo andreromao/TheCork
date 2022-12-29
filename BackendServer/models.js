@@ -1,15 +1,14 @@
 const mongoose = require('mongoose')
 
 const reservationSchema = new mongoose.Schema({
-    _id: Number,
     name: String,
     restaurant: String,
     people: Number,
     date: Date,
+    status: String,
 });
 
 const restaurantSchema = new mongoose.Schema({
-    _id: Number,
     slug: String,
     name: String,
     address: String,
