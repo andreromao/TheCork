@@ -1,10 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const models = require('./models');
+const cors = require('cors');
 require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 const app = express();
+app.use(cors());
 
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.DB_URL, {}).then(() => console.log("db connected"));

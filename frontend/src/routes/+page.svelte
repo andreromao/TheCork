@@ -1,39 +1,15 @@
 <script>
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
+    import { API_URL } from '$env/static/public'
 
-    let coords;
-    let restaurants = [
-        {
-            name: 'Restaurant 1',
-            address: 'Address 1',
-            image: 'https://i.pinimg.com/originals/0e/b9/8b/0eb98b8677f20999ec1bc6f9afe88bdc.jpg',
-            id: '0',
-            lat: 51.5074,
-            long: 0.1278,
-        },
-        {
-            name: 'Restaurant 2',
-            address: 'Address 2',
-            image: 'https://bacibacirestaurant.files.wordpress.com/2020/02/chairs-cutlery-fork-9315.jpg',
-            id: '1',
-            lat: 51.9108,
-            long: 4.4213,
-        },
-        {
-            name: 'Restaurant 3',
-            address: 'Address 3',
-            image: 'https://cdn.vox-cdn.com/thumbor/5d_RtADj8ncnVqh-afV3mU-XQv0=/0x0:1600x1067/1200x900/filters:focal(672x406:928x662)/cdn.vox-cdn.com/uploads/chorus_image/image/57698831/51951042270_78ea1e8590_h.7.jpg',
-            id: '2',
-            lat: 51.5074,
-            long: 0.1278,
-        },
-    ];
+    let restaurants = [];
     
     onMount(async () => {
+        restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
         if (browser) {
             navigator.geolocation.getCurrentPosition((position) => {
-                coords = position.coords;
+                const coords = position.coords;
                 // sort restaurants by distance
                 restaurants.sort((a, b) => {
                     const aDistance = Math.sqrt(Math.pow(a.lat - coords.latitude, 2) + Math.pow(a.long - coords.longitude, 2));
