@@ -10,6 +10,7 @@ const reservationSchema = new mongoose.Schema({
 
 const restaurantSchema = new mongoose.Schema({
     _id: Number,
+    slug: String,
     name: String,
     address: String,
     image: String,
