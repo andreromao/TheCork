@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "63adb108e1fab0e77f646aea"
+  },
+  "name": "Galeto",
+  "address": "Av. da República 14, 1050-191 Lisboa",
+  "image": "https://lojascomhistoria.pt/medium/uploads/images/c25e8c450f562f810fecb4fd2f2fe017.jpg",
+  "lat": 38.735707,
+  "long": -9.144935,
+  "slug": "galeto"
+},{
+  "_id": {
+    "$oid": "63adde751a0fcc163bcc4e26"
+  },
+  "name": "Super chefe",
+  "address": "Av. Duque de Ávila 22, 1000-141 Lisboa",
+  "image": "https://static.mygon.com/ImageAdapterV2/shop/9152/shopimage_4.jpg?width=760&height=506",
+  "lat": 38.7353331,
+  "long": -9.1439881,
+  "slug": "super-chefe"
+},{
+  "_id": {
+    "$oid": "63ade0531a0fcc163bcc4e27"
+  },
+  "name": "Frankie",
+  "address": "R. Alves Redol 13, 1000-030 Lisboa",
+  "image": "https://www.frankiehotdogs.pt/uploads/saldanha-frankie.jpg",
+  "lat": 38.736967,
+  "long": -9.140776,
+  "slug": "frankie"
+},{
+  "_id": {
+    "$oid": "63ade0ef1a0fcc163bcc4e28"
+  },
+  "name": "100 Montaditos",
+  "address": "Av. Duque de Ávila 47, 1000-139 Lisboa",
+  "image": "https://i0.wp.com/ondevamosjantar.com/wp-content/uploads/2015/09/100-montaditos-saldanha-lisboa-entrada.jpg?fit=614%2C312&ssl=1",
+  "lat": 38.73507,
+  "long": -9.142374,
+  "slug": "100-montaditos"
+},{
+  "_id": {
+    "$oid": "63ade1871a0fcc163bcc4e29"
+  },
+  "name": "Casa Indiana",
+  "address": "Av. Rovisco Pais 2 loja a, 1000-268 Lisboa",
+  "image": "https://www.mygon.com/ImageAdapterV2/shop/28826/shopimage_1.jpg?width=600&height=315",
+  "lat": 38.735175,
+  "long": -9.139963,
+  "slug": "casa-indiana"
+}]
