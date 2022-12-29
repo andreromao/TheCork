@@ -1,16 +1,26 @@
 const mongoose = require('mongoose')
 
-// Reservation Modal Schema
 const reservationSchema = new mongoose.Schema({
     _id: Number,
     name: String,
     restaurant: String,
+    people: Number,
+    date: Date,
 });
 
-// Creating model objects
+const restaurantSchema = new mongoose.Schema({
+    _id: Number,
+    name: String,
+    address: String,
+    image: String,
+    lat: Number,
+    long: Number,
+});
+
 const Reservation = mongoose.model('reservation', reservationSchema);
+const Restaurant = mongoose.model('restaurant', restaurantSchema);
  
-// Exporting our model objects
 module.exports = {
-    Reservation
+    Reservation,
+    Restaurant
 }
