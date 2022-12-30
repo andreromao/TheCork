@@ -30,6 +30,32 @@ app.get('/restaurants', async (req, res) => {
     res.send(restaurants);
 })
 
+app.get('/schedule', async (req, res) => {
+    const schedule = await models.Schedule.findOne({
+        restaurant: req.query.restaurant,
+    }).catch(console.error);
+    console.log(schedule);
+    res.send(schedule);
+})
+
+app.post('/schedule', async (req, res) => {
+    console.log(req.body);
+    if (!req.body.restaurant) {
+        res.status(400).send("Missing required fields");
+        return;
+    }
+    await models.Schedule.findOneAndUpdate({
+        restaurant: req.body.restaurant,
+    }, req.body, {
+        upsert: true,
+    }).then(() => {
+        res.status(200).send("Schedule saved");
+    }).catch((err) => {
+        console.error(err);
+        res.status(400).send("An error occurred");
+    });
+})
+
 app.post('/reserve', async (req, res) => {
     console.log(req.body);
     const reservation = new models.Reservation(req.body);

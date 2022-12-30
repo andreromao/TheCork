@@ -15,8 +15,6 @@
     let times = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
     let selectedTime, selectedDate, name, people = 2;
     $: people = Math.max(people, 1);
-
-    const slug = location.pathname.split("/")[2];
     
     let toast = "", error = "";
     async function book() {
@@ -30,7 +28,7 @@
                 name,
                 people,
                 date: date.toISOString(),
-                restaurant: slug,
+                restaurant: location.pathname.split("/")[2],
             })
         });
         if (res.ok) {
