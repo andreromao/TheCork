@@ -1,9 +1,13 @@
 <script>
     import { API_URL } from '$env/static/public'
+    import { onMount } from 'svelte';
 
+    const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    
+    let slug;
     let currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 2);
-    let dates = [];
+    let dates = [], times = [], schedule;
     $: if (currentDate) {
         dates = [];
         for (let i = -2; i < 3; i++) {
@@ -12,9 +16,25 @@
             dates.push(date);
         }
     }
-    let times = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'];
     let selectedTime, selectedDate, name, people = 2;
     $: people = Math.max(people, 1);
+
+    onMount(async () => {
+        slug = location.pathname.split("/")[2];
+        const res = await fetch(`${API_URL}/schedule?restaurant=${slug}`);
+        if (res.ok) {
+            schedule = await res.json();
+            for (let day of weekDays) {
+                if (schedule[day]) {
+                    for (let time of schedule[day]) {
+                        if (!times.includes(time)) times.push(time);
+                    }
+                    times.sort();
+                    times = times;
+                }
+            }
+        }
+    });
     
     let toast = "", error = "";
     async function book() {
@@ -28,7 +48,7 @@
                 name,
                 people,
                 date: date.toISOString(),
-                restaurant: location.pathname.split("/")[2],
+                restaurant: slug,
             })
         });
         if (res.ok) {
@@ -65,6 +85,7 @@
                     {#each dates as date}
                         <td>
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            {#if schedule[weekDays[date.getDay()]]?.includes(time) && Date.parse(`${date.toISOString().split("T")[0]}T${time}`) > Date.now()}
                             <label
                                 class="btn btn-outline btn-sm hover:scale-105"
                                 on:click={() => {
@@ -73,6 +94,7 @@
                                 }}
                                 for="confirmation">Book</label
                             >
+                            {/if}
                         </td>
                     {/each}
                 </tr>
@@ -114,7 +136,7 @@
 {/if}
 
 {#if error}
-    <div class="absolute alert alert-error shadow-lg">
+    <div class="fixed alert alert-error shadow-lg">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             <span>{error}</span>

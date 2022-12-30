@@ -77,9 +77,20 @@ app.post('/reserve', async (req, res) => {
             error = "There is already a reservation under this name for this slot";
         }
     }).catch(console.error);
-
-    // TODO check if restaurant exists and use id instead of slug
-    // TODO check if date is valid
+    await models.Schedule.findOne({
+        restaurant: reservation.restaurant,
+    }).then((schedule) => {
+        if (!schedule) {
+            error = "This restaurant does not exist";
+        } else {
+            const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            const times = schedule[weekDays[reservation.date.getDay()]];
+            const time = reservation.date.getHours() + ":" + reservation.date.getMinutes().toString().padStart(2, "0");
+            if (!times.includes(time)) {
+                error = "This reservation is not available";
+            }
+        }
+    }).catch(console.error);
 
     if (error) {
         res.status(400).send(error);
