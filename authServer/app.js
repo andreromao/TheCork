@@ -3,10 +3,12 @@ const mongoose = require('mongoose')
 const models = require('./models');
 const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser");
+const cors = require('cors');
 require('dotenv').config();
 
 const port = 4000;
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -27,8 +29,8 @@ app.post('/login', (req, res) => {
         return;
     }
 
-    models.User.findOne({name:req.body.username}, async function(err, user) {
-        if (err) { res.status(500).send("Internal Server error Occured") }
+    models.User.findOne({username:req.body.username}, async function(err, user) {
+        if (err) { res.status(500).send("Internal Server error occured") }
         if (user) {
             bcrypt
             .compare(req.body.password, user.passHash)
@@ -42,17 +44,17 @@ app.post('/login', (req, res) => {
             })
             .catch(err => {
                 console.error(err.message)
-                res.status(500).send("Internal Server error Occured");
+                res.status(500).send("Internal Server error occured");
             })
         } else {
-            res.status(400).send("Username doesn't exists");
+            res.status(400).send("Username does not exist");
         }
     })
 })
 
 app.post('/register', async (req, res) => {
     console.log(req.body);
-    const registingUser = new models.User(req.body);
+    const newUser = new models.User(req.body);
     
     if(!req.body.password || !req.body.username) {
         res.status(400).send("Missing username or password");
@@ -60,13 +62,14 @@ app.post('/register', async (req, res) => {
     }
 
     models.User.findOne({name:req.body.username}, async function(err, user) {
-        if (err) { res.status(500).send("Internal Server error Occured") }
+        if (err) { res.status(500).send("Internal Server error occured") }
         if (!user) {
             bcrypt
             .hash(req.body.password, saltRounds)
             .then(hash => {
-                registingUser.passHash = hash
-                registingUser.save().then(() => {
+                newUser.username = req.body.username
+                newUser.passHash = hash
+                newUser.save().then(() => {
                     res.status(200).send("User registered");
                 }).catch((err) => {
                     console.error(err);
@@ -75,7 +78,7 @@ app.post('/register', async (req, res) => {
             })
             .catch(err => {
                 console.error(err.message)
-                res.status(500).send("Internal Server error Occured");
+                res.status(500).send("Internal Server error occured");
             })
         } else {
             res.status(400).send("Username already exists");

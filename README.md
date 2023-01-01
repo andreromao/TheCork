@@ -19,7 +19,7 @@ For this project we used the following technologies:
 * [Node.js](https://nodejs.org/en/about/) - Backend Servers and API
 * [npm](https://www.npmjs.com/package/npm) - Package manager
 * [MongoDB](https://www.mongodb.com/docs/) - Databases
-* [SlveteKit](https://kit.svelte.dev/docs/introduction) - Frontend
+* [SvelteKit](https://kit.svelte.dev/docs/introduction) - Frontend
 
 ## Getting Started
 
