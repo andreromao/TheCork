@@ -18,7 +18,6 @@
         const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`);
         if (res2.ok) {
             reservations = await res2.json();
-            console.log(reservations);
         }
     });
 
@@ -41,7 +40,6 @@
     }
 
     async function changeStatus(id, status) {
-        console.log(id);
         const res = await fetch(`${API_URL}/change-status`, {
             method: 'POST',
             headers: {
@@ -102,7 +100,7 @@
         <table class="table w-[200px] overflow-auto">
             <thead>
                 <tr>
-                    <th />
+                    <th style="position: unset !important" />
                     {#each weekDays as day}
                         <th class="text-lg text-center">{day.slice(0, 3)}</th>
                     {/each}

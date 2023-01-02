@@ -61,7 +61,7 @@
     }
 </script>
 
-<div class="flex flex-col items-center gap-5 my-10">
+<div class="flex flex-col items-center gap-5 my-10 overflow-hidden">
     <h1 class="text-4xl font-bold">Book a table</h1>
     <input
         type="date"
@@ -69,49 +69,51 @@
         bind:value={currentDate}
         min={new Date().toISOString().split("T")[0]}
     />
-    <table class="table w-[200px] overflow-auto">
-        <thead>
-            <tr>
-                <th />
-                {#each dates as date}
-                    <th class="text-lg text-center">{date.toLocaleDateString("pt-PT", { day: "numeric", month: "short" })}</th>
-                {/each}
-            </tr>
-        </thead>
-        <tbody>
-            {#each times as time}
+    <div class="max-w-[100vw] px-4 overflow-scroll no-scrollbar">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{time}</td>
+                    <th style="position: unset !important" />
                     {#each dates as date}
-                        <td>
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            {#if schedule[weekDays[date.getDay()]]?.includes(time) && Date.parse(`${date.toISOString().split("T")[0]}T${time}`) > Date.now()}
-                            <label
-                                class="btn btn-outline btn-sm hover:scale-105"
-                                on:click={() => {
-                                    selectedTime = time;
-                                    selectedDate = date;
-                                }}
-                                for="confirmation">Book</label
-                            >
-                            {/if}
-                        </td>
+                        <th class="text-lg text-center">{date.toLocaleDateString("pt-PT", { day: "numeric", month: "short" })}</th>
                     {/each}
                 </tr>
-            {/each}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {#each times as time}
+                    <tr>
+                        <td>{time}</td>
+                        {#each dates as date}
+                            <td>
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                {#if schedule[weekDays[date.getDay()]]?.includes(time) && Date.parse(`${date.toISOString().split("T")[0]}T${time}`) > Date.now()}
+                                <label
+                                    class="btn btn-outline btn-sm hover:scale-105"
+                                    on:click={() => {
+                                        selectedTime = time;
+                                        selectedDate = date;
+                                    }}
+                                    for="confirmation">Book</label
+                                >
+                                {/if}
+                            </td>
+                        {/each}
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <input type="checkbox" id="confirmation" class="modal-toggle" />
 <div class="modal">
-    <div class="modal-box w-[400px] text-xl">
+    <div class="modal-box m-4 w-[350px] text-xl">
         <label for="confirmation" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
         <h2 class="mb-4 font-bold text-3xl ">Book a table</h2>
         <p class="py-3">You have selected a table for <b>{selectedDate?.toLocaleDateString("pt-PT")}</b> at <b>{selectedTime}</b>.</p>
-        <p class="py-3">Your name</p>
-        <input type="text" class="input text-xl bg-base-300 mb-2" bind:value={name} />
-        <p class="py-3">How many people?</p>
+        <label class="label"><span class="label-text">Your name</span></label>
+        <input type="text" placeholder="Name" class="input text-xl bg-base-300 mb-2" bind:value={name} />
+        <label class="label"><span class="label-text">Number of people</span></label>
         <div class="input-group input-group-lg">
             <button class="btn" on:click={() => {people--}}>-</button>
             <span class="text-center w-[50px] justify-center">{people}</span>
@@ -119,7 +121,7 @@
           </div>
         <div class="modal-action">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <label for="confirmation" class="btn {name ? "btn-primary" : "btn-disabled"} btn-lg" on:click={book}>Book</label>
+            <label for="confirmation" class="btn {name ? "btn-primary" : "btn-disabled"} btn-block" on:click={book}>Book</label>
         </div>
     </div>
 </div>

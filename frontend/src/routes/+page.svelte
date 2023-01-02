@@ -22,8 +22,8 @@
     });
 </script>
 
-<div class="grid gap-3 mt-10 m-5 w-[1000px] xl:w-[1200px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-    <h1 class="col-span-full m-5 font-serif text-4xl font-thin">TheCork</h1>
+<div class="grid gap-3 mt-5 m-5 p-4 w-full xl:w-[1200px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <h1 class="col-span-full m-5 font-serif text-4xl font-thin">Restaurants</h1>
     {#each restaurants as restaurant}
         <a href="/restaurant/{restaurant.slug}">
             <div class="card bg-base-100 h-full">

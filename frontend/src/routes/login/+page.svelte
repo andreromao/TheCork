@@ -32,8 +32,8 @@
         </div>
     </div>
 {/if}
-<div class="mt-20 card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-    <div class="card-body">
+<div class="mt-20 card flex-shrink-0 w-[90%] max-w-sm shadow-2xl bg-base-100">
+    <form class="card-body" on:submit={login}>
         <h1 class="text-2xl font-bold">Login</h1>
         <div class="form-control">
             <label class="label">
@@ -63,7 +63,7 @@
             </label>
         </div>
         <div class="form-control mt-6">
-            <button class="btn btn-primary {username && password ? "" : "btn-disabled"}" on:click={login}>Login</button>
+            <button type="submit" class="btn btn-primary {username && password ? "" : "btn-disabled"}">Login</button>
         </div>
-    </div>
+    </form>
 </div>
