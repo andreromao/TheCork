@@ -19,7 +19,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/reservations', async (req, res) => {
-    const reservations = await models.Reservation.find().catch(console.error);
+    const reservations = await models.Reservation.find({
+        restaurant: req.query.restaurant,
+        date: {
+            $gte: new Date(),
+        },
+    }).catch(console.error);
     console.log(reservations);
     res.send(reservations);
 })
@@ -101,6 +106,24 @@ app.post('/reserve', async (req, res) => {
     reservation.status = "pending";
     reservation.save().then(() => {
         res.status(200).send("Reservation saved");
+    }).catch((err) => {
+        console.error(err);
+        res.status(400).send("An error occurred");
+    });
+})
+
+app.post('/change-status', async (req, res) => {
+    console.log(req.body);
+    if (!req.body.id || !req.body.status) {
+        res.status(400).send("Missing required fields");
+        return;
+    }
+    await models.Reservation.findOneAndUpdate({
+        _id: req.body.id,
+    }, {
+        status: req.body.status,
+    }).then(() => {
+        res.status(200).send("Status changed");
     }).catch((err) => {
         console.error(err);
         res.status(400).send("An error occurred");
