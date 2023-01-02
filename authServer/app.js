@@ -4,6 +4,8 @@ const models = require('./models');
 const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const crypto = require ("crypto");
+const { access } = require('fs');
 require('dotenv').config();
 
 const port = 4000;
@@ -36,8 +38,11 @@ app.post('/login', (req, res) => {
             .compare(req.body.password, user.passHash)
             .then(cmp => {
                 if (cmp) {
-                    // TODO: generate and send auth token
-                    res.status(200).send("Logged in");
+                   
+                    const accessToken=generateAccessToken(req.body.username)
+                    user.refreshToken= generateRefreshToken(req.body.username)
+                    console.log(user)
+                   res.status(200).send(accessToken);
                 } else {
                     res.status(400).send("Wrong password");
                 }
@@ -51,6 +56,26 @@ app.post('/login', (req, res) => {
         }
     })
 })
+
+function generateAccessToken (username){
+    // TODO: add role to payload
+    const payload ={name:username, exp : Date.now()+1}
+    const buff= new Buffer(JSON.stringify(payload))
+    const base64data=buff.toString('base64')
+    var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
+    
+    return base64data+"."+hash
+}
+function generateRefreshToken(username){
+    
+    const payload ={username}
+    const buff= new Buffer(JSON.stringify(payload))
+    const base64data=buff.toString('base64')
+    var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
+    return base64data+"."+hash
+}
+
+
 
 app.post('/register', async (req, res) => {
     console.log(req.body);
@@ -69,6 +94,8 @@ app.post('/register', async (req, res) => {
             .then(hash => {
                 newUser.username = req.body.username
                 newUser.passHash = hash
+                newUser.refreshToken=" "
+               
                 newUser.save().then(() => {
                     res.status(200).send("User registered");
                 }).catch((err) => {
