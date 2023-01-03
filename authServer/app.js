@@ -62,7 +62,7 @@ app.post('/login', (req, res) => {
 function generateAccessToken (username){
     // TODO: add role to payload
     const payload ={name:username, exp : Date.now()+1}
-    const buff= new Buffer(JSON.stringify(payload))
+    const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
     var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
     
@@ -71,7 +71,7 @@ function generateAccessToken (username){
 function generateRefreshToken(username){
     
     const payload ={username}
-    const buff= new Buffer(JSON.stringify(payload))
+    const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
     var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
     return base64data+"."+hash
