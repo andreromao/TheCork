@@ -79,7 +79,7 @@ function generateRefreshToken(username){
     const payload ={name:username}
     const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
-    var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
+    var hash = crypto.createHmac('SHA256', process.env.REFRESH_TOKEN_SECRET).update(base64data).digest('base64')
     return base64data+"."+hash
 }
 
@@ -89,19 +89,30 @@ app.post('/token', async (req,res)=>{
         res.status(400).send("Missing username or refreshToken");
         return;
     }
+    const refreshToken=req.body.token
+    const name= req.body.username
 
-    const refreshToken = req.body.token
-    const username= req.body.username
-    await models.User.findOne({username: req.body.username}, async function(err, user) {
+    models.User.findOne({username:req.body.username}, async function(err, user) {
+
         if (err) { res.status(500).send("Internal Server error occured") }
-        if(user){
-            if(refreshToken !== user.refreshToken) res.status(500).send("wrong refresh token")
-            const testToken=generateRefreshToken(user.username)
-            if(refreshToken!== testToken) res.status(500).send("tokens aren't the same")
-            const accessToken=generateAccessToken()
-            res.status(200).send(accessToken);
+
+        if(!user){
+            res.status(400).send("Username does not exist");
+        }else{
+            //compares if this token belongs to this user
+            if(user.refreshToken!==refreshToken) res.status(400).send("wrong refresh token") 
+
+            //compares if the token was encrypted with the right key and algorithm 
+            const payload64=refreshToken.split(".")[0]
+            const hash=crypto.createHmac('SHA256', process.env.REFRESH_TOKEN_SECRET).update(base64data).digest('base64')
+            if(hash!==refreshToken.split(".")[1]) res.status(400).send("wrong token") 
+
+            //generates new acces token -> freshness
+            const accessToken= generateAccessToken(user.username) 
+            res.status(200).send(accessToken)
         }
     })
+
 })
 
 
@@ -117,7 +128,7 @@ app.post('/register', async (req, res) => {
     models.User.findOne({username:req.body.username}, async function(err, user) {
         console.log(" name "+req.body.username)
         if (err) { res.status(500).send("Internal Server error occured") }
-        console.log("user: "+user)
+        
         if (!user) {
             bcrypt
             .hash(req.body.password, saltRounds)
@@ -159,6 +170,8 @@ app.delete('/logout',(req,res)=>{
                 if(err) throw err
                 console.log("db updated")
             })
+        }else{
+            res.status(400).send("Username does not exist");
         }
     })
 })
