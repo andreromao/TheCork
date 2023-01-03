@@ -4,6 +4,8 @@ const models = require('./models');
 const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 const crypto = require ("crypto");
 const { access } = require('fs');
 require('dotenv').config();
@@ -113,6 +115,9 @@ app.post('/register', async (req, res) => {
     })
 })
 
-app.listen(port, () => {
+https.createServer({
+    key: fs.readFileSync('.cert/key.pem'),
+    cert: fs.readFileSync('.cert/cert.pem')
+}, app).listen(port, () => {
     console.log("server is running at port " + port);
 })

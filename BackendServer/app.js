@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose')
 const models = require('./models');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 require('dotenv').config();
 
 const port = process.env.PORT || 3000;
@@ -130,6 +132,9 @@ app.post('/change-status', async (req, res) => {
     });
 })
 
-app.listen(port, () => {
+https.createServer({
+    key: fs.readFileSync('.cert/key.pem'),
+    cert: fs.readFileSync('.cert/cert.pem')
+}, app).listen(port, () => {
     console.log("server is running at port " + port);
 })
