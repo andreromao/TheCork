@@ -88,7 +88,7 @@ app.get('/schedule', async (req, res) => {
         res.status(400).send("This restaurant does not exist");
         return;
     }
-    //console.log("s "+schedule);
+  
     res.send(schedule);
 })
 
