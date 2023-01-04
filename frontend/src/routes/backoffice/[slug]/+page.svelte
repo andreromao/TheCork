@@ -1,6 +1,7 @@
 <script>
     import { API_URL } from '$env/static/public'
     import { onMount } from 'svelte';
+    import { user } from '$lib/stores';
 
     let weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     let times = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'];
@@ -32,7 +33,8 @@
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${$user.accessToken}`
                 },
                 body: JSON.stringify(schedule)
             }
@@ -43,7 +45,8 @@
         const res = await fetch(`${API_URL}/change-status`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${$user.accessToken}`
             },
             body: JSON.stringify({ id, status })
         });

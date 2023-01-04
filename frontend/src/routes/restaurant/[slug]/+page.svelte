@@ -1,6 +1,7 @@
 <script>
     import { API_URL } from '$env/static/public'
     import { onMount } from 'svelte';
+    import { user } from '$lib/stores';
 
     const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     
@@ -42,7 +43,8 @@
         const res = await fetch(`${API_URL}/reserve`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${$user.accessToken}`
             },
             body: JSON.stringify({
                 name,
