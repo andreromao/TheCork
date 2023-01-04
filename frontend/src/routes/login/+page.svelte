@@ -19,7 +19,7 @@
         });
 
         if (res.ok) {
-            $user = await res.json();
+            $user = { username: username, ...await res.json() }
             goto("/");
         } else {
             error = await res.text();

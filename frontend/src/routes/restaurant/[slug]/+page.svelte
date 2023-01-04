@@ -48,6 +48,7 @@
             },
             body: JSON.stringify({
                 name,
+                username: $user.username,
                 people,
                 date: date.toISOString(),
                 restaurant: slug,

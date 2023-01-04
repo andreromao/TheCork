@@ -31,6 +31,23 @@ app.get('/reservations', async (req, res) => {
     res.send(reservations);
 })
 
+app.get('/user-reservations', async (req, res) => {
+    const reservations = await models.Reservation.find({
+        username: req.query.username, // TODO: derive username from token
+        date: {
+            $gte: new Date(),
+        },
+    }).catch(console.error);
+    for (let i = 0; i < reservations.length; i++) {
+        const restaurant = await models.Restaurant.findOne({
+            slug: reservations[i].restaurant,
+        }).catch(console.error);
+        reservations[i].restaurant = restaurant.name;
+    }
+    console.log(reservations);
+    res.send(reservations);
+})
+
 app.get('/restaurants', async (req, res) => {
     const restaurants = await models.Restaurant.find().catch(console.error);
     console.log(restaurants);
