@@ -33,32 +33,10 @@ app.get('/reservations', checkToken, async (req, res) => {
     res.send(reservations);
 })
 
-<<<<<<< HEAD
 function checkToken(req, res, next){
     console.log(req.headers['host'])
     const header = req.headers['Authorization']
     console.log(header)
-=======
-app.get('/user-reservations', checkToken, async (req, res) => {
-    const reservations = await models.Reservation.find({
-        username: req.query.username, // TODO: derive username from token
-        date: {
-            $gte: new Date(),
-        },
-    }).catch(console.error);
-    for (let i = 0; i < reservations.length; i++) {
-        const restaurant = await models.Restaurant.findOne({
-            slug: reservations[i].restaurant,
-        }).catch(console.error);
-        reservations[i].restaurant = restaurant.name;
-    }
-    console.log(reservations);
-    res.send(reservations);
-})
-
-function checkToken(req, res, next){
-    const header = req.headers['authorization']
->>>>>>> 37c935b5f697ea9e10f0863dcfc0d8db659aac03
         if(header==null) {
             res.status(400).send("headers missing")
             return
