@@ -64,6 +64,9 @@
     }
 </script>
 
+{#if $user.role === "admin"}
+    <a class="btn btn-outline fixed top-2 right-16 z-20" on:click={() => {location.href = `/backoffice/${slug}`}}>Backoffice</a>
+{/if}
 <div class="flex flex-col items-center gap-5 my-10 overflow-hidden">
     <h1 class="text-4xl font-bold">Book a table</h1>
     <input

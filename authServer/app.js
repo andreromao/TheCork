@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
                         console.log("db updated")
                     })
                     console.log(user)
-                    res.status(200).json({accessToken: accessToken, refreshToken:refreshToken});
+                    res.status(200).json({accessToken: accessToken, refreshToken:refreshToken, role: user.role});
                 } else {
                     res.status(400).send("Wrong password");
                 }
