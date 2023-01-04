@@ -75,7 +75,6 @@ app.get('/user-reservations', checkToken, async (req, res) => {
 });
 
 
-
 app.get('/restaurants', async (req, res) => {
     const restaurants = await models.Restaurant.find().catch(console.error);
     res.send(restaurants);
@@ -163,7 +162,7 @@ app.post('/reserve', checkToken, async (req, res) => {
 })
 
 app.post('/change-status',checkToken, async (req, res) => {
-    
+
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
         return;
