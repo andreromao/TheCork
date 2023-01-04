@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const reservationSchema = new mongoose.Schema({
     name: String,
+    username: String,
     restaurant: String,
     people: Number,
     date: Date,
