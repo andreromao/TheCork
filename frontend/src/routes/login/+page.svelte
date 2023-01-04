@@ -1,8 +1,10 @@
 <script>
     import { goto } from '$app/navigation';
     import { AUTH_URL } from '$env/static/public'
+    import { user } from '$lib/stores';
 
     let username = "", password = "", error = "";
+    $user = null;
 
     async function login() {
         const res = await fetch(`${AUTH_URL}/login`, {
@@ -17,6 +19,7 @@
         });
 
         if (res.ok) {
+            $user = await res.json();
             goto("/");
         } else {
             error = await res.text();
