@@ -5,6 +5,8 @@ const models = require('./models');
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
+const crypto = require ("crypto");
+
 require('dotenv').config();
 
 const port = process.env.PORT || 3000;
@@ -20,7 +22,7 @@ app.get('/', (req, res) => {
     res.send("<h1>Hello from nodeJS app</h1>");
 })
 
-app.get('/reservations', async (req, res) => {
+app.get('/reservations', checkToken, async (req, res) => {
     const reservations = await models.Reservation.find({
         restaurant: req.query.restaurant,
         date: {
@@ -31,13 +33,42 @@ app.get('/reservations', async (req, res) => {
     res.send(reservations);
 })
 
-app.get('/restaurants', async (req, res) => {
+function checkToken(req, res, next){
+
+    const header = req.headers['authorization']
+        if(header==null) {
+            res.status(400).send("headers missing")
+            return
+        }
+
+        const token = header.split(' ')[1]
+
+        if(token==null) {
+            res.status(400).send("token missing")
+            return
+        }
+        const payload64=token.split(".")[0]
+        const hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
+
+        if(hash !== token.split(".")[1]) res.status(400).send("wrong token")
+        const payloadAscci = new Buffer.from(hash,'base64').toString('ascii')
+
+        const hashJson=JSON.parse(payloadAscci)
+        const expTime= hashJson["exp"]
+
+        if (expTime> Date.now()){
+            res.status(400).send("expired token")
+        }
+        next()   
+}
+
+app.get('/restaurants',checkToken, async (req, res) => {
+    
     const restaurants = await models.Restaurant.find().catch(console.error);
-    console.log(restaurants);
     res.send(restaurants);
 })
 
-app.get('/schedule', async (req, res) => {
+app.get('/schedule',checkToken, async (req, res) => {
     const schedule = await models.Schedule.findOne({
         restaurant: req.query.restaurant,
     }).catch(console.error);
@@ -45,7 +76,7 @@ app.get('/schedule', async (req, res) => {
     res.send(schedule);
 })
 
-app.post('/schedule', async (req, res) => {
+app.post('/schedule', checkToken, async (req, res) => {
     console.log(req.body);
     if (!req.body.restaurant) {
         res.status(400).send("Missing required fields");
@@ -63,7 +94,7 @@ app.post('/schedule', async (req, res) => {
     });
 })
 
-app.post('/reserve', async (req, res) => {
+app.post('/reserve', checkToken, async (req, res) => {
     console.log(req.body);
     const reservation = new models.Reservation(req.body);
 
@@ -114,7 +145,7 @@ app.post('/reserve', async (req, res) => {
     });
 })
 
-app.post('/change-status', async (req, res) => {
+app.post('/change-status',checkToken, async (req, res) => {
     console.log(req.body);
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
