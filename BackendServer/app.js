@@ -34,8 +34,9 @@ app.get('/reservations', checkToken, async (req, res) => {
 })
 
 function checkToken(req, res, next){
-
-    const header = req.headers['authorization']
+    console.log(req.headers['host'])
+    const header = req.headers['Authorization']
+    console.log(header)
         if(header==null) {
             res.status(400).send("headers missing")
             return

@@ -41,8 +41,8 @@ app.post('/login', (req, res) => {
             .then(cmp => {
                 if (cmp) {
                    
-                    const accessToken=generateAccessToken(req.body.username)
-                    const refreshToken=generateRefreshToken(req.body.username)
+                    const accessToken=generateAccessToken(req.body.username, user.role)
+                    const refreshToken=generateRefreshToken(req.body.username, user.role)
                     user.refreshToken= refreshToken
                     models.User.updateOne({username: req.body.username},{$set:{refreshToken:refreshToken}}, function(err,res){
                         if(err) throw err
@@ -64,9 +64,9 @@ app.post('/login', (req, res) => {
     })
 })
 
-function generateAccessToken (username){
+function generateAccessToken (username, role){
     // TODO: add role to payload
-    const payload ={name:username, role: "client", exp : Date.now()+15}
+    const payload ={name:username, role: role, exp : Date.now()+15}
     const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
     var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
@@ -74,9 +74,9 @@ function generateAccessToken (username){
     return base64data+"."+hash
 }
 
-function generateRefreshToken(username){
+function generateRefreshToken(username, role){
     
-    const payload ={name:username}
+    const payload ={name:username, role: role}
     const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
     var hash = crypto.createHmac('SHA256', process.env.REFRESH_TOKEN_SECRET).update(base64data).digest('base64')
@@ -135,6 +135,7 @@ app.post('/register', async (req, res) => {
             .then(hash => {
                 newUser.username = req.body.username
                 newUser.passHash = hash
+                newUser.role="client"
                 newUser.refreshToken=" "
                
                 newUser.save().then(() => {
