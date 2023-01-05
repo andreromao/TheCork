@@ -27,9 +27,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What kind of **hardware** device and which **operating system** do you need to have to install the software.
-
-In this section also include detailed instructions for installing additiona software the application is dependent upon (such as PostgreSQL database, for example). 
+VirtualBox
 
 ```
 Give installation command examples
@@ -38,22 +36,6 @@ Give installation command examples
 ### Installing
 
 Follow the [installation guide](InstallationGuide.md)
-
-Give step-by-step instructions on building and running the application on the development environment. 
-
-Describe the step.
-
-```
-Give the command example
-```
-
-And repeat.
-
-```
-until finished
-```
-
-You can also add screenshots to show expected results, when relevant.
 
 ### Testing
 
@@ -93,11 +75,3 @@ Provide instructions for connecting to servers and tell clients how to obtain ne
 * **Maria Albino** - [mariacasanova25](https://github.com/mariacasanova25)
 * **Rodrigo Palmeirim** - [rodrigohpalmeirim](https://github.com/rodrigohpalmeirim)
 
-### Versioning
-
-We use [SemVer](http://semver.org/) for versioning. 
-For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
