@@ -97,12 +97,12 @@ app.post('/token', async (req, res) => {
             res.status(400).send("Username does not exist");
         } else {
             //compares if this token belongs to this user
-            if (user.refreshToken !== refreshToken) res.status(400).send("wrong refresh token")
+            if (user.refreshToken !== refreshToken) res.status(498).send("Invalid refresh token")
 
             //compares if the token was encrypted with the right key and algorithm 
             const base64data = refreshToken.split(".")[0]
             const hash = crypto.createHmac('SHA256', process.env.REFRESH_TOKEN_SECRET).update(base64data).digest('base64')
-            if (hash !== refreshToken.split(".")[1]) res.status(400).send("wrong token")
+            if (hash !== refreshToken.split(".")[1]) res.status(498).send("Invalid refresh token")
 
             //generates new acces token -> freshness
             const accessToken = generateAccessToken(user.username)

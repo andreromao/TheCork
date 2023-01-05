@@ -25,23 +25,23 @@ app.get('/', (req, res) => {
 function checkToken(req, res, next) {
     const header = req.headers['authorization']
 
-    if (header == null) return res.status(400).send("headers missing")
+    if (header == null) return res.status(401).send("Headers missing")
 
     const token = header.split(' ')[1]
 
-    if (token == null) return res.status(400).send("token missing")
+    if (token == null) return res.status(401).send("Token missing")
 
     const payload64 = token.split(".")[0]
     const hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(payload64).digest('base64')
 
-    if (hash !== token.split(".")[1]) return res.status(400).send("wrong token")
+    if (hash !== token.split(".")[1]) return res.status(498).send("Invalid token")
 
     const payloadAscci = new Buffer.from(payload64, 'base64').toString('ascii')
 
     const hashJson = JSON.parse(payloadAscci)
     const expTime = hashJson["exp"]
 
-    if (expTime < Date.now()) return res.status(400).send("expired token")
+    if (expTime < Date.now()) return res.status(401).send("Token expired")
     next()
 }
 
