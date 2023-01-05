@@ -8,7 +8,12 @@
     
     onMount(async () => {
         if ($user) {
-            reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then((res) => res.json());
+            const res = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } });
+            if (res.ok) {
+                reservations = await res.json();
+            } else if (await res.text() === 'expired token') {
+                location.reload();
+            }
         }
         restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
         if (browser) {
