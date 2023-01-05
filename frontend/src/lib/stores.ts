@@ -28,7 +28,7 @@ async function refresh() {
     });
     
     if (res.ok) {
-        return { ...userValue, accessToken: await res.text() };
+        user.set({ ...userValue, accessToken: await res.text() });
     } else {
         goto('/login');
     }
