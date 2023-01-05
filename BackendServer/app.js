@@ -5,7 +5,7 @@ const models = require('./models');
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
-const crypto = require ("crypto");
+const crypto = require("crypto");
 
 require('dotenv').config();
 
@@ -22,28 +22,27 @@ app.get('/', (req, res) => {
     res.send("<h1>Hello from nodeJS app</h1>");
 })
 
-function checkToken(req, res, next){
-    
+function checkToken(req, res, next) {
     const header = req.headers['authorization']
-    
-        if(header==null) return res.status(400).send("headers missing")
-        
-        const token = header.split(' ')[1]
 
-        if(token==null) return res.status(400).send("token missing")
-        
-        const payload64=token.split(".")[0]
-        const hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(payload64).digest('base64')
+    if (header == null) return res.status(400).send("headers missing")
 
-        if(hash !== token.split(".")[1]) return res.status(400).send("wrong token")
+    const token = header.split(' ')[1]
 
-        const payloadAscci = new Buffer.from(payload64,'base64').toString('ascii')
+    if (token == null) return res.status(400).send("token missing")
 
-        const hashJson=JSON.parse(payloadAscci)
-        const expTime= hashJson["exp"]
-       
-        if (expTime < Date.now()) return res.status(400).send("expired token")
-        next()   
+    const payload64 = token.split(".")[0]
+    const hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(payload64).digest('base64')
+
+    if (hash !== token.split(".")[1]) return res.status(400).send("wrong token")
+
+    const payloadAscci = new Buffer.from(payload64, 'base64').toString('ascii')
+
+    const hashJson = JSON.parse(payloadAscci)
+    const expTime = hashJson["exp"]
+
+    if (expTime < Date.now()) return res.status(400).send("expired token")
+    next()
 }
 
 app.get('/reservations', checkToken, async (req, res) => {
@@ -89,11 +88,10 @@ app.get('/schedule', async (req, res) => {
         res.status(400).send("This restaurant does not exist");
         return;
     }
-  
     res.send(schedule);
 })
 
-app.post('/schedule',  checkToken, async (req, res) => {
+app.post('/schedule', checkToken, async (req, res) => {
     // TODO: check that the user is an admin
     console.log(req.body);
     if (!req.body.restaurant) {
@@ -113,7 +111,6 @@ app.post('/schedule',  checkToken, async (req, res) => {
 })
 
 app.post('/reserve', checkToken, async (req, res) => {
-  
     const reservation = new models.Reservation(req.body);
 
     let error;
@@ -163,9 +160,8 @@ app.post('/reserve', checkToken, async (req, res) => {
     });
 })
 
-app.post('/change-status',checkToken, async (req, res) => {
+app.post('/change-status', checkToken, async (req, res) => {
     // TODO: check that the user is an admin
-
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
         return;
