@@ -76,7 +76,7 @@
             <tbody>
                 {#if reservations.length === 0}
                     <tr>
-                        <td colspan="5" class="text-center">No reservations</td>
+                        <td colspan="6" class="text-center">No reservations</td>
                     </tr>
                 {/if}
                 {#each reservations as reservation}
