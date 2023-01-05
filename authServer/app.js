@@ -66,7 +66,7 @@ app.post('/login', (req, res) => {
 
 function generateAccessToken (username, role){
     // TODO: add role to payload
-    const payload ={name:username, role: role, exp : Date.now()+15}
+    const payload ={name:username, role: role, exp : Date.now()+15000}
     const buff= Buffer.from(JSON.stringify(payload))
     const base64data=buff.toString('base64')
     var hash = crypto.createHmac('SHA256', process.env.ACCESS_TOKEN_SECRET).update(base64data).digest('base64')
