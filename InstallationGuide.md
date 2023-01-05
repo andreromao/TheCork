@@ -54,25 +54,41 @@ The rest of the configurations are done by running the scripts for each machine.
 ### 2.2 Creating the rest of the VMs
 We will now clone our "template" VM 5 times, changing the clone's names to "Frontend Server", "Backend Server", "Auth Server", "Router2" and "Discount Backend Server". Change the "template" vm name to "Router1" as well.
 
-# TODO - explicar como fazer clone
+- Click `Clone`
+- Select the name you want to give to the new machine
+- MAC Adress Policy: Generate new MAC addresses for all network adapters
+- Select `Linked Clone`
 
 ## 3. Configure the VMs
 ### 3.1. Router1
+
+#FIXME vao ser 5 interfaces?
+
 On the Network Tab, enable all 4 adapters. Adapters 1, 2 and 3 are Internal Network, give them the following names:
  - Adapter 1 name: subnet1
  - Adapter 2 name: subnet2
  - Adapter 3 name: external
 
 The 4th adaptor is a NAT.
+Run the Router1 script
 
 ### 3.2. Frontend Server
+On the Network Tab, enable one Internal Network adapter named subnet1.
+Run the Frontend script
 
 ### 3.3. Backend Server
+On the Network Tab, enable one Internal Network adapter named subnet2.
+Run the Backend script
 
 ### 3.4. Auth Server
+On the Network Tab, enable one Internal Network adapter named subnet3 (?).
+Run the AuthServer script
 
 ### 3.5. Router2
+On the Network Tab, enable two Internal Network adapter named discSubnet and external.
+Run the Router2 script
 
 ### 3.6. Discount Backend Server
-
+On the Network Tab, enable one Internal Network adapter named discSubnet.
+Run the DiscBackend script
 
