@@ -98,3 +98,6 @@ On the Network Tab, enable one Internal Network adapter named discSubnet.
 
 Run the DiscBackend script
 
+## 4. Testing the system
+In your host browser, go to https://localhost
+You should see TheCork web page
