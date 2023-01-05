@@ -103,7 +103,7 @@ app.post('/token', async (req,res)=>{
             if(user.refreshToken!==refreshToken) res.status(400).send("wrong refresh token") 
 
             //compares if the token was encrypted with the right key and algorithm 
-            const payload64=refreshToken.split(".")[0]
+            const base64data=refreshToken.split(".")[0]
             const hash=crypto.createHmac('SHA256', process.env.REFRESH_TOKEN_SECRET).update(base64data).digest('base64')
             if(hash!==refreshToken.split(".")[1]) res.status(400).send("wrong token") 
 
