@@ -10,7 +10,6 @@
         if ($user) {
             reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then((res) => res.json());
         }
-        console.log(reservations);
         restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
         if (browser) {
             navigator.geolocation.getCurrentPosition((position) => {
