@@ -37,6 +37,8 @@ Give installation command examples
 
 ### Installing
 
+Follow the [installation guide](InstallationGuide.md)
+
 Give step-by-step instructions on building and running the application on the development environment. 
 
 Describe the step.
