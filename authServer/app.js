@@ -105,7 +105,7 @@ app.post('/token', async (req, res) => {
             if (hash !== refreshToken.split(".")[1]) res.status(498).send("Invalid refresh token")
 
             //generates new acces token -> freshness
-            const accessToken = generateAccessToken(user.username)
+            const accessToken = generateAccessToken(user.username, user.role)
             res.status(200).send(accessToken)
         }
     })

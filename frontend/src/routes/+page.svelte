@@ -7,7 +7,7 @@
 
     onMount(async () => {
         if ($user) {
-            reservations = await fetch(`/api/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
+            reservations = await fetch(`/api/user-reservations`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
         }
         restaurants = await fetch(`/api/restaurants`).then((res) => res.json());
         if (browser) {
@@ -31,16 +31,22 @@
         <div class="flex flex-col gap-2 p-4">
             {#each reservations as reservation}
                 <div class="px-5 py-3 rounded-xl bg-base-100 relative">
-                    <h1 class="text-xl font-bold">{reservation.restaurant}</h1>
+                    <div class="flex gap-2">
+                        <h1 class="text-xl font-bold">{reservation.restaurant}</h1>
+                        {#if reservation.discount}
+                            <span class="bg-base-300 font-bold px-2 py-1 rounded-lg">{reservation.discount.discount}% OFF</span>
+                        {/if}
+                    </div>
                     <p>Table for <b>{reservation.people}</b> on <b>{new Date(reservation.date).toLocaleDateString("en-US", { month: 'long', day: 'numeric' })}</b> at <b>{new Date(reservation.date).toLocaleTimeString("pt-PT", { hour: 'numeric', minute: '2-digit' })}</b></p>
                     <p>Reserved for <b>{reservation.name}</b></p>
                     {#if reservation.status === 'pending'}
-                        <span class="absolute top-4 right-4 badge badge-warning">Pending</span>
+                        <span class="absolute bottom-3 right-3 badge badge-warning">Pending</span>
                     {:else if reservation.status === 'accepted'}
-                        <span class="absolute top-4 right-4 badge badge-success">Accepted</span>
+                        <span class="absolute bottom-3 right-3 badge badge-success">Accepted</span>
                     {:else}
-                        <span class="absolute top-4 right-4 badge badge-error">Rejected</span>
+                        <span class="absolute bottom-3 right-3 badge badge-error">Rejected</span>
                     {/if}
+                    
                 </div>
             {/each}
         </div>

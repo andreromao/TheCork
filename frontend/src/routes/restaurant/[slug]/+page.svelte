@@ -11,7 +11,7 @@
     let slug;
     let currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 2);
-    let dates = [], times = [], schedule;
+    let dates = [], times = [], schedule, points;
     $: if (currentDate) {
         dates = [];
         for (let i = -2; i < 3; i++) {
@@ -20,11 +20,13 @@
             dates.push(date);
         }
     }
-    let selectedTime, selectedDate, name, people = 2;
+    let selectedTime, selectedDate, name, people = 2, usePoints = false;
     $: people = Math.max(people, 1);
+    $: usePoints = points >= 25 && usePoints;
 
     onMount(async () => {
         slug = location.pathname.split("/")[2];
+        updatePoints();
         const res = await fetch(`/api/schedule?restaurant=${slug}`);
         if (res.ok) {
             schedule = await res.json();
@@ -39,6 +41,16 @@
             }
         }
     });
+
+    function updatePoints() {
+        fetch(`/api/user-points`, {
+            headers: {
+                'Authorization': `Bearer ${$user.accessToken}`
+            }
+        }).then(res => res.json()).then(data => {
+            points = data.points;
+        });
+    }
     
     let toast = "", error = "";
     async function book() {
@@ -51,14 +63,15 @@
             },
             body: JSON.stringify({
                 name,
-                username: $user.username,
                 people,
                 date: date.toISOString(),
                 restaurant: slug,
+                usePoints
             })
         });
         if (res.ok) {
             toast = await res.text();
+            updatePoints();
             setTimeout(() => { toast = ""; }, 2000);
         } else {
             error = await res.text();
@@ -127,7 +140,16 @@
             <button class="btn" on:click={() => {people--}}>-</button>
             <span class="text-center w-[50px] justify-center">{people}</span>
             <button class="btn" on:click={() => {people++}}>+</button>
-          </div>
+        </div>
+        {#if points >= 0}
+            <div class="bg-base-300 rounded-xl p-4 mt-4">
+                <p class="text-base">You have <b>{points}</b> points!</p>
+                <label class="label justify-start gap-2 {points < 25 ? "cursor-not-allowed" : "cursor-pointer"}">
+                    <input type="checkbox" class="checkbox" bind:checked={usePoints} disabled={points < 25} />
+                    <span class="label-text {points < 25 ? "text-gray-600" : ""}">Use 25 points to get a free discount</span>
+                </label>
+            </div>
+        {/if}
         <div class="modal-action">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <label for="confirmation" class="btn {name ? "btn-primary" : "btn-disabled"} btn-block" on:click={book}>Book</label>

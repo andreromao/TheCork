@@ -69,13 +69,14 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>People</th>
+                    <th>Discount</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {#if reservations.length === 0}
                     <tr>
-                        <td colspan="5" class="text-center">No reservations</td>
+                        <td colspan="6" class="text-center">No reservations</td>
                     </tr>
                 {/if}
                 {#each reservations as reservation}
@@ -84,6 +85,7 @@
                         <td>{reservation.date.split("T")[0]}</td>
                         <td>{new Date(reservation.date).toLocaleTimeString("pt-PT", { hour: 'numeric', minute: '2-digit' })}</td>
                         <td>{reservation.people}</td>
+                        <td>{reservation.discount ? reservation.discount.discount + "%" : "-"}</td>
                         <td>
                             {#if reservation.status === "pending"}
                                 <button class="btn btn-sm btn-error" on:click={() => changeStatus(reservation._id, "declined")}>Decline</button>

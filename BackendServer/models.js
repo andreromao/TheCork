@@ -7,6 +7,7 @@ const reservationSchema = new mongoose.Schema({
     people: Number,
     date: Date,
     status: String,
+    discount: Object,
 });
 
 const restaurantSchema = new mongoose.Schema({
