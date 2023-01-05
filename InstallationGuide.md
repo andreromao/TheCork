@@ -19,7 +19,7 @@ Download Ubuntu Server 22.04.01 ISO image [here](https://ubuntu.com/download/ser
 In virtual box, create a new vm, name it "Router1", a linux Ubuntu (64-bit) machine.
 
 Step by step:
- - Give the vm 1024 MB of RAM. 
+ - Give the VM 1024 MB of RAM. 
  - Select option "Create a virtual hard disk now"
  - Choose VDI as hard disk file type
  - Select "Dynamically allocated"
