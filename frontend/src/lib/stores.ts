@@ -33,3 +33,12 @@ async function refresh() {
         goto('/login');
     }
 };
+
+export async function checkExpiration(res: Response) {
+    if (res.status === 401 && await res.text() === 'Token expired') {
+        await refresh();
+        console.log('refreshed');
+        location.reload();
+    }
+    return res;
+}

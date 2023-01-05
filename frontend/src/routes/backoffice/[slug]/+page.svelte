@@ -1,7 +1,7 @@
 <script>
     import { API_URL } from '$env/static/public'
     import { onMount } from 'svelte';
-    import { user } from '$lib/stores';
+    import { checkExpiration, user } from '$lib/stores';
 
     let weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     let times = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'];
@@ -16,7 +16,7 @@
             schedule = await res.json();
         }
 
-        const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } });
+        const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration);
         if (res2.ok) {
             reservations = await res2.json();
         }

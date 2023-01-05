@@ -2,18 +2,13 @@
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import { API_URL } from '$env/static/public'
-    import { user } from '$lib/stores';
+    import { checkExpiration, user } from '$lib/stores';
 
     let reservations = [], restaurants = [];
     
     onMount(async () => {
         if ($user) {
-            const res = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } });
-            if (res.ok) {
-                reservations = await res.json();
-            } else if (await res.text() === 'expired token') {
-                location.reload();
-            }
+            reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
         }
         restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
         if (browser) {
