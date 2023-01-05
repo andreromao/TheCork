@@ -1,13 +1,12 @@
 <script>
     import { goto } from '$app/navigation';
-    import { AUTH_URL } from '$env/static/public'
     import { user } from '$lib/stores';
 
     let username = "", password = "", error = "";
     $user = null;
 
     async function login() {
-        const res = await fetch(`${AUTH_URL}/login`, {
+        const res = await fetch(`/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

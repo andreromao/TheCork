@@ -1,6 +1,7 @@
 <script>
-    import { API_URL } from '$env/static/public'
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+    import { browser } from '$app/environment';
     import { checkExpiration, user } from '$lib/stores';
 
     if (browser && !$user) goto('/login');
@@ -13,12 +14,12 @@
     onMount(async () => {
         slug = location.pathname.split("/")[2];
 
-        const res = await fetch(`${API_URL}/schedule?restaurant=${slug}`);
+        const res = await fetch(`/api/schedule?restaurant=${slug}`);
         if (res.ok) {
             schedule = await res.json();
         }
 
-        const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration);
+        const res2 = await fetch(`/api/reservations?restaurant=${slug}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration);
         if (res2.ok) {
             reservations = await res2.json();
         }
@@ -31,7 +32,7 @@
             schedule[day].push(time);
         }
         schedule = schedule;
-        fetch(`${API_URL}/schedule?restaurant=${slug}`,
+        fetch(`/api/schedule?restaurant=${slug}`,
             {
                 method: 'POST',
                 headers: {
@@ -44,7 +45,7 @@
     }
 
     async function changeStatus(id, status) {
-        const res = await fetch(`${API_URL}/change-status`, {
+        const res = await fetch(`/api/change-status`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

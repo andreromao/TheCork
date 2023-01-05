@@ -1,6 +1,7 @@
 <script>
-    import { API_URL } from '$env/static/public'
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+    import { browser } from '$app/environment';
     import { user } from '$lib/stores';
 
     if (browser && !$user) goto('/login');
@@ -24,7 +25,7 @@
 
     onMount(async () => {
         slug = location.pathname.split("/")[2];
-        const res = await fetch(`${API_URL}/schedule?restaurant=${slug}`);
+        const res = await fetch(`/api/schedule?restaurant=${slug}`);
         if (res.ok) {
             schedule = await res.json();
             for (let day of weekDays) {
@@ -42,7 +43,7 @@
     let toast = "", error = "";
     async function book() {
         const date = new Date(Date.parse(`${selectedDate.toISOString().split("T")[0]}T${selectedTime}`));
-        const res = await fetch(`${API_URL}/reserve`, {
+        const res = await fetch(`/api/reserve`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +67,7 @@
     }
 </script>
 
-{#if $user.role === "admin"}
+{#if $user?.role === "admin"}
     <a class="btn btn-outline fixed top-2 right-16 z-20" on:click={() => {location.href = `/backoffice/${slug}`}}>Backoffice</a>
 {/if}
 <div class="flex flex-col items-center gap-5 my-10 overflow-hidden">

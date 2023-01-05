@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment'
-import { AUTH_URL } from '$env/static/public'
 import { goto } from '$app/navigation';
 
 let persistedUser = browser && localStorage.getItem('user')
@@ -16,7 +15,7 @@ if (browser) {
 
 async function refresh() {
     if (!userValue) return;
-    const res = await fetch(`${AUTH_URL}/token`, {
+    const res = await fetch("/auth/token", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

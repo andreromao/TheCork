@@ -1,16 +1,15 @@
 <script>
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
-    import { API_URL } from '$env/static/public'
     import { checkExpiration, user } from '$lib/stores';
 
     let reservations = [], restaurants = [];
-    
+
     onMount(async () => {
         if ($user) {
-            reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
+            reservations = await fetch(`/api/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
         }
-        restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
+        restaurants = await fetch(`/api/restaurants`).then((res) => res.json());
         if (browser) {
             navigator.geolocation.getCurrentPosition((position) => {
                 const coords = position.coords;

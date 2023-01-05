@@ -1,11 +1,10 @@
 <script>
     import { goto } from '$app/navigation';
-    import { AUTH_URL } from '$env/static/public'
 
     let username = "", password = "", confirmPassword = "", error = "";
 
     async function signup() {
-        const res = await fetch(`${AUTH_URL}/register`, {
+        const res = await fetch(`/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
