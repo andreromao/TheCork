@@ -45,21 +45,52 @@ function checkToken(req, res, next) {
     next()
 }
 
+function checkAdmin(headers){
+    const header= headers['authorization']
+
+    const token=header.split(' ')[1]
+    const payload64= token.split('.')[0]
+
+    const payloadAscci= new Buffer.from(payload64, 'base64').toString('ascii')
+    const payloadJson=JSON.parse(payloadAscci)
+    const role=payloadJson["role"]
+    console.log("role "+role)
+    return role === 'admin'
+}
+
+function getUserName(headers){
+    const header= headers['authorization']
+
+    const token=header.split(' ')[1]
+    const payload64= token.split('.')[0]
+
+    const payloadAscci= new Buffer.from(payload64, 'base64').toString('ascii')
+    const payloadJson=JSON.parse(payloadAscci)
+    const username=payloadJson["name"]
+    console.log("user "+username)
+    return username   
+
+}
+
 app.get('/reservations', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+  
+    if(!checkAdmin(req.headers)) return res.status(403)
+
     const reservations = await models.Reservation.find({
         restaurant: req.query.restaurant,
         date: {
             $gte: new Date(),
         },
     }).catch(console.error);
-    console.log(reservations);
+    
     res.send(reservations);
 })
 
 app.get('/user-reservations', checkToken, async (req, res) => {
+
     const reservations = await models.Reservation.find({
-        username: req.query.username, // TODO: derive username from token
+     
+       username: getUserName(req.headers),
         date: {
             $gte: new Date(),
         },
@@ -92,7 +123,9 @@ app.get('/schedule', async (req, res) => {
 })
 
 app.post('/schedule', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+   
+    if(!checkAdmin(req.headers)) return res.status(403)
+
     console.log(req.body);
     if (!req.body.restaurant) {
         res.status(400).send("Missing required fields");
@@ -161,7 +194,9 @@ app.post('/reserve', checkToken, async (req, res) => {
 })
 
 app.post('/change-status', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+
+    if(!checkAdmin(req.headers)) return res.status(403)
+
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
         return;
