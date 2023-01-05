@@ -70,25 +70,31 @@ On the Network Tab, enable all 4 adapters. Adapters 1, 2 and 3 are Internal Netw
  - Adapter 3 name: external
 
 The 4th adaptor is a NAT.
+
 Run the Router1 script
 
 ### 3.2. Frontend Server
 On the Network Tab, enable one Internal Network adapter named subnet1.
+
 Run the Frontend script
 
 ### 3.3. Backend Server
 On the Network Tab, enable one Internal Network adapter named subnet2.
+
 Run the Backend script
 
 ### 3.4. Auth Server
 On the Network Tab, enable one Internal Network adapter named subnet3 (?).
+
 Run the AuthServer script
 
 ### 3.5. Router2
 On the Network Tab, enable two Internal Network adapter named discSubnet and external.
+
 Run the Router2 script
 
 ### 3.6. Discount Backend Server
 On the Network Tab, enable one Internal Network adapter named discSubnet.
+
 Run the DiscBackend script
 
