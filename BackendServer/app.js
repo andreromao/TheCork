@@ -47,6 +47,7 @@ function checkToken(req, res, next){
 }
 
 app.get('/reservations', checkToken, async (req, res) => {
+    // TODO: check that the user is an admin
     const reservations = await models.Reservation.find({
         restaurant: req.query.restaurant,
         date: {
@@ -93,6 +94,7 @@ app.get('/schedule', async (req, res) => {
 })
 
 app.post('/schedule',  checkToken, async (req, res) => {
+    // TODO: check that the user is an admin
     console.log(req.body);
     if (!req.body.restaurant) {
         res.status(400).send("Missing required fields");
@@ -162,6 +164,7 @@ app.post('/reserve', checkToken, async (req, res) => {
 })
 
 app.post('/change-status',checkToken, async (req, res) => {
+    // TODO: check that the user is an admin
 
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
