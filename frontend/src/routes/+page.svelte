@@ -39,7 +39,7 @@
                         <span class="absolute top-4 right-4 badge badge-warning">Pending</span>
                     {:else if reservation.status === 'accepted'}
                         <span class="absolute top-4 right-4 badge badge-success">Accepted</span>
-                    {:else if reservation.status === 'rejected'}
+                    {:else}
                         <span class="absolute top-4 right-4 badge badge-error">Rejected</span>
                     {/if}
                 </div>

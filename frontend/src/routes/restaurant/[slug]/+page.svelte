@@ -3,6 +3,8 @@
     import { onMount } from 'svelte';
     import { user } from '$lib/stores';
 
+    if (browser && !$user) goto('/login');
+    
     const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     
     let slug;
