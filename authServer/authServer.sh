@@ -7,6 +7,6 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
 dpkg -i ./libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
 apt update -y
-apt install mongodb-org
+apt install mongodb-org -y
 systemctl enable --now mongod
 
