@@ -7,7 +7,9 @@
     let reservations = [], restaurants = [];
     
     onMount(async () => {
-        reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`).then((res) => res.json());
+        if ($user) {
+            reservations = await fetch(`${API_URL}/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then((res) => res.json());
+        }
         console.log(reservations);
         restaurants = await fetch(`${API_URL}/restaurants`).then((res) => res.json());
         if (browser) {
@@ -26,7 +28,7 @@
 </script>
 
 <div class="flex-col">
-    {#if reservations}
+    {#if reservations.length > 0}
         <h1 class="col-span-full m-5 mt-10 text-4xl font-bold">Your Reservations</h1>
         <div class="flex flex-col gap-2 p-4">
             {#each reservations as reservation}

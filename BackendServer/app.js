@@ -33,7 +33,7 @@ app.get('/reservations', checkToken, async (req, res) => {
     res.send(reservations);
 })
 
-app.get('/user-reservations', async (req, res) => {
+app.get('/user-reservations', checkToken, async (req, res) => {
     const reservations = await models.Reservation.find({
         username: req.query.username, // TODO: derive username from token
         date: {
@@ -78,12 +78,12 @@ function checkToken(req, res, next){
         next()   
 }
 
-app.get('/restaurants',checkToken, async (req, res) => {
+app.get('/restaurants', async (req, res) => {
     const restaurants = await models.Restaurant.find().catch(console.error);
     res.send(restaurants);
 })
 
-app.get('/schedule',checkToken, async (req, res) => {
+app.get('/schedule', async (req, res) => {
     const schedule = await models.Schedule.findOne({
         restaurant: req.query.restaurant,
     }).catch(console.error);

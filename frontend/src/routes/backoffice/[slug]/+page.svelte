@@ -16,7 +16,7 @@
             schedule = await res.json();
         }
 
-        const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`);
+        const res2 = await fetch(`${API_URL}/reservations?restaurant=${slug}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } });
         if (res2.ok) {
             reservations = await res2.json();
         }
