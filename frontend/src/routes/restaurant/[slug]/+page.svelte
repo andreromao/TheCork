@@ -43,8 +43,7 @@
     });
 
     function updatePoints() {
-        // TODO: remove username query param
-        fetch(`/api/user-points?username=${$user.username}`, {
+        fetch(`/api/user-points`, {
             headers: {
                 'Authorization': `Bearer ${$user.accessToken}`
             }
@@ -64,7 +63,6 @@
             },
             body: JSON.stringify({
                 name,
-                username: $user.username, // TODO remove
                 people,
                 date: date.toISOString(),
                 restaurant: slug,

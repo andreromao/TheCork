@@ -7,8 +7,7 @@
 
     onMount(async () => {
         if ($user) {
-            // TODO remove user query param
-            reservations = await fetch(`/api/user-reservations?username=${$user.username}`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
+            reservations = await fetch(`/api/user-reservations`, { headers: { 'Authorization': `Bearer ${$user.accessToken}` } }).then(checkExpiration).then((res) => res.json());
         }
         restaurants = await fetch(`/api/restaurants`).then((res) => res.json());
         if (browser) {

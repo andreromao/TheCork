@@ -46,8 +46,29 @@ function checkToken(req, res, next) {
     next()
 }
 
-app.get('/reservations', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+function decodeToken(req) {
+    const token = req.headers['authorization'].split(' ')[1];
+    console.log(token);
+    const payload64 = token.split(".")[0];
+    const payloadAscci = new Buffer.from(payload64, 'base64').toString('ascii');
+    const payload = JSON.parse(payloadAscci);
+    return payload;
+}
+
+function checkAdmin(req, res, next) {
+    const payload = decodeToken(req);
+    console.log(payload);
+    if (payload.role !== "admin") {
+        return res.status(401).send("You are not an admin");
+    }
+    next();
+}
+
+app.get('/reservations', checkToken, checkAdmin, async (req, res) => {
+    if (!req.query.restaurant) {
+        res.status(400).send("Missing required fields");
+        return;
+    }
     const reservations = await models.Reservation.find({
         restaurant: req.query.restaurant,
         date: {
@@ -60,7 +81,7 @@ app.get('/reservations', checkToken, async (req, res) => {
 
 app.get('/user-reservations', checkToken, async (req, res) => {
     const reservations = await models.Reservation.find({
-        username: req.query.username, // TODO: derive username from token
+        username: decodeToken(req).name,
         date: {
             $gte: new Date(),
         },
@@ -92,8 +113,7 @@ app.get('/schedule', async (req, res) => {
     res.send(schedule);
 })
 
-app.post('/schedule', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+app.post('/schedule', checkToken, checkAdmin, async (req, res) => {
     console.log(req.body);
     if (!req.body.restaurant) {
         res.status(400).send("Missing required fields");
@@ -113,7 +133,7 @@ app.post('/schedule', checkToken, async (req, res) => {
 
 app.post('/reserve', checkToken, async (req, res) => {
     const reservation = new models.Reservation(req.body);
-    // TODO: get username from token and add it to the reservation
+    reservation.username = decodeToken(req).name;
 
     let error;
     if (!reservation.name || !reservation.restaurant || !reservation.people || !reservation.date) {
@@ -207,8 +227,7 @@ function addPoints(username) {
 }
 
 app.get('/user-points', checkToken, async (req, res) => {
-    // TODO: get username from token instead of query
-    const r = await fetch(process.env.DISCOUNT_API_URL + "/user-points?username=" + req.query.username, {
+    const r = await fetch(process.env.DISCOUNT_API_URL + "/user-points?username=" + decodeToken(req).name, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -226,8 +245,7 @@ app.get('/user-points', checkToken, async (req, res) => {
     res.send(points);
 })
 
-app.post('/change-status', checkToken, async (req, res) => {
-    // TODO: check that the user is an admin
+app.post('/change-status', checkToken, checkAdmin, async (req, res) => {
     if (!req.body.id || !req.body.status) {
         res.status(400).send("Missing required fields");
         return;
