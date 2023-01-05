@@ -1,2 +1,2 @@
 !#/bin/bash
-apt install npm
+apt install npm -y
