@@ -9,6 +9,8 @@ As shown in this infrastructure diagram, there are 2 networks, one called TheCor
 For the TheCork network we are going to need 4 vm's (Router1, Frontend Server, Backend Server and Auth Server).
 For the Discount Server Provider network we are going to need 2 vm's (Router2 and Backend Server).
 
+![Diagram](https://user-images.githubusercontent.com/75808145/210816907-ff13c49f-0e0a-41b2-a462-28b05dcdb701.png)
+
 ## First VM
 
 ### Creating the VM
