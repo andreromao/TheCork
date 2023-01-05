@@ -89,6 +89,10 @@ app.get('/schedule', async (req, res) => {
     const schedule = await models.Schedule.findOne({
         restaurant: req.query.restaurant,
     }).catch(console.error);
+    if (!schedule) {
+        res.status(400).send("This restaurant does not exist");
+        return;
+    }
     console.log(schedule);
     res.send(schedule);
 })
