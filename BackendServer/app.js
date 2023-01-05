@@ -14,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.DB_URL, {}).then(() => console.log("db connected"));
@@ -112,6 +113,7 @@ app.post('/schedule', checkToken, async (req, res) => {
 
 app.post('/reserve', checkToken, async (req, res) => {
     const reservation = new models.Reservation(req.body);
+    // TODO: get username from token and add it to the reservation
 
     let error;
     if (!reservation.name || !reservation.restaurant || !reservation.people || !reservation.date) {
@@ -151,6 +153,14 @@ app.post('/reserve', checkToken, async (req, res) => {
         return;
     }
 
+    if (req.body.usePoints) {
+        const discount = await redeemPoints(reservation.username);
+        if (discount) {
+            reservation.discount = discount;
+        }
+    } else {
+        addPoints(reservation.username);
+    }
     reservation.status = "pending";
     reservation.save().then(() => {
         res.status(200).send("Reservation saved");
@@ -158,6 +168,62 @@ app.post('/reserve', checkToken, async (req, res) => {
         console.error(err);
         res.status(400).send("An error occurred");
     });
+})
+
+async function redeemPoints(username) {
+    return await fetch(process.env.DISCOUNT_API_URL + "/redeem-points", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + process.env.DISCOUNT_API_TOKEN,
+        },
+        body: JSON.stringify({ username: username }),
+    }).then(async (res) => {
+        if (res.status === 200) {
+            return await res.json();
+        } else {
+            console.error("Error while redeeming points:", await res.text());
+            return null;
+        }
+    }).catch(console.error);
+}
+
+function addPoints(username) {
+    fetch(process.env.DISCOUNT_API_URL + "/add-points", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + process.env.DISCOUNT_API_TOKEN,
+        },
+        body: JSON.stringify({
+            username: username,
+            points: 10,
+        }),
+    }).then(async (res) => {
+        if (res.status !== 200) {
+            console.error("Error while adding points:", await res.text());
+        }
+    }).catch(console.error);
+}
+
+app.get('/user-points', checkToken, async (req, res) => {
+    // TODO: get username from token instead of query
+    const r = await fetch(process.env.DISCOUNT_API_URL + "/user-points?username=" + req.query.username, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + process.env.DISCOUNT_API_TOKEN,
+        },
+    }).catch(err => {
+        console.error(err);
+        res.status(400).send("An error occurred");
+    });
+    if (r.status !== 200) {
+        res.status(400).send("An error occurred");
+        return;
+    }
+    const points = await r.json();
+    res.send(points);
 })
 
 app.post('/change-status', checkToken, async (req, res) => {
