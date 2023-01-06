@@ -1,0 +1,19 @@
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.2.110/24]
+      routes:
+        - to: default
+          via: 192.168.2.100
+    enp0s8:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.4.110/24]
+    enp0s9:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.5.110/24]
+  version: 2
