@@ -1,5 +1,11 @@
 # The Cork - Group 25
 
+## Context
+
+This project was built in the context of the Network and Computer Security course at IST.
+
+## Introduction
+
 TheCork is a service that allows its users to make restaurant reservations via a mobile application and website that integrates seamlessly with the restaurants' calendars.
 
 Customers can see which restaurants are available and book a table in a mobile app. They can also do these commands on a website. 
@@ -27,45 +33,35 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-VirtualBox
-
-```
-Give installation command examples
-```
+[VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
 ### Installing
 
 Follow the [installation guide](InstallationGuide.md)
 
-### Testing
-
-Explain how to run the automated tests for this system.
-
-Give users explicit instructions on how to run all necessary tests. 
-Explain the libraries, such as JUnit, used for testing your software and supply all necessary commands.
-
-Explain what these tests test and why
-
-```
-Give an example command
-```
-
 ## Demo
 
-Give a tour of the best features of the application.
-Add screenshots when relevant.
+The home page of the platform contains the users' reservations and the available restaurants sorted by distance.
+
+![](./screenshots/home.png)
+
+If a user selects a restaurant, they can check out the avalability schedule and make a reservation on an available time slot. With each reservation, users earn points which they can trade for restaurant discounts associated with the reservation.
+
+![](./screenshots/booking.png)
+
+There is aditionally a backoffice page available to users with the role of `admin` where it is possible to update the schedule, as well as see the upcoming reservations, which they can choose to accept or decline.
+
+![](./screenshots/backoffice.png)
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system e.g. a host or a cloud provider.
+If you are deploying to a live system (e.g. a host or a cloud provider), you should follow the [installation guide](InstallationGuide.md) ignoring the steps related to virtual machines.
 
-Mention virtualization/container tools and commands.
+The provided SSL certificates are self-signed and are only meant for a development environment. In production, they should be replaced with new certificates, signed by a trusted CA.
 
-```
-Give an example command
-```
+Additionally, all the endpoints need to be replaced in the `.env` files, along with the secret tokens.
 
-Provide instructions for connecting to servers and tell clients how to obtain necessary permissions.
+Furthermore, if the databases were to be deployed on separate machines, SSL should be enabled in the configuration in order to ensure secure communication.
 
 ## Additional Information
 

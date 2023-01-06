@@ -133,10 +133,11 @@ app.post('/register', async (req, res) => {
                     newUser.username = req.body.username
                     newUser.passHash = hash
                     newUser.role = "client"
-                    newUser.refreshToken = " "
+                    newUser.refreshToken = null
 
                     newUser.save().then(() => {
                         res.status(200).send("User registered");
+                        console.log(newUser)
                     }).catch((err) => {
                         console.error(err);
                         res.status(500).send("An error occurred");
@@ -146,6 +147,7 @@ app.post('/register', async (req, res) => {
                     console.error(err.message)
                     res.status(500).send("Internal Server error occured");
                 })
+                
         } else {
             res.status(400).send("Username already exists");
         }
@@ -164,7 +166,7 @@ app.delete('/logout', (req, res) => {
     models.User.findOne({ username: req.body.username }, async function (err, user) {
         if (err) { res.status(500).send("Internal Server error occured") }
         if (user) {
-            models.User.updateOne({ username: req.body.username }, { $set: { refreshToken: " " } }, function (err, res) {
+            models.User.updateOne({ username: req.body.username }, { $set: { refreshToken: null } }, function (err, res) {
                 if (err) throw err
                 console.log("db updated")
             })

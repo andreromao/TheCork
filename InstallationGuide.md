@@ -2,11 +2,11 @@
 
 ## 1. Introduction
 
-To reproduce the environment you will need to create 6 VMs, all ubuntu server machines.
+To reproduce the environment you will need to create 6 VMs, all of them running Ubuntu Server.
 
-As shown in this infrastructure diagram, there are 2 networks, one called TheCork network and the other one called Discount Server Provider network.
+As shown in this infrastructure diagram, there are 2 networks, one called "TheCork Network" and the other one called "Discount Server Provider Network".
 
-For the TheCork network we are going to need 4 VMs (Router1, Frontend Server, Backend Server and Auth Server).
+For the TheCork Network we are going to need 4 VMs (Router1, Frontend Server, Backend Server and Auth Server).
 For the Discount Server Provider network we are going to need 2 VMs (Router2 and Backend Server).
 
 ![Diagram](https://user-images.githubusercontent.com/75808145/210816907-ff13c49f-0e0a-41b2-a462-28b05dcdb701.png)
@@ -15,26 +15,26 @@ For the Discount Server Provider network we are going to need 2 VMs (Router2 and
 
 ### 2.1 "Template" VM
 ### 2.1.1. Creating the "template" VM
-Firstly download Ubuntu Server 22.04.01 ISO image [here](https://ubuntu.com/download/server)
+Firstly, download Ubuntu Server 22.04.01 ISO image [here](https://ubuntu.com/download/server)
 
-In virtual box, create a new vm, name it "Template", a linux Ubuntu (64-bit) machine.
+In VirtualBox, create a new VM, name it "Template", a linux Ubuntu (64-bit) machine.
 
 Step by step:
- - Give the VM 1024 MB of RAM
+ - Assign 1024MB of RAM to the VM
  - Select option "Create a virtual hard disk now"
  - Choose VDI as hard disk file type
  - Select "Dynamically allocated"
  - Choose your location and hard drive storage size, 10GB should be enough
 
 ### 2.1.2. Changing some VM settings
-After the vm is created, in virtual box, select the new vm and go to settings.
+After the VM is created, in VirtualBox, select the new VM and go to Settings.
 
-On the Display Tab you can lower the video memory to 8 MB. In this tab you can also increase the scale factor to make your vm screen bigger.
+On the Display Tab you can lower the video memory to 8 MB if you are using a machine with limited video memory. In this tab, you can also increase the scale factor to make your VM screen bigger.
 
 On the Storage Tab, click under "Controller IDE", where it says "Empty". Next to "Optical Drive", click on the small CD icon to load the Ubuntu Server 22.04.01 ISO image you previously downloaded. You can do so by clicking on "Choose a disk file".
 
 ### 2.1.3. Starting the VM
-After turning the machine on, you will need to go through an 11 step setup.
+After turning the machine on, you will need to go through an 11 step setup wizard.
 
 <img width="647" alt="Screenshot 2023-01-05 at 11 15 08" src="https://user-images.githubusercontent.com/75808145/210902651-45a9dc98-342f-46b1-bac4-f53cc0de012c.png">
 
