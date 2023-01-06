@@ -33,19 +33,32 @@ On the Display Tab you can lower the video memory to 8 MB. In this tab you can a
 
 On the Storage Tab, click under "Controller IDE", where it says "Empty". Next to "Optical Drive", click on the small CD icon to load the Ubuntu Server 22.04.01 ISO image you previously downloaded. You can do so by clicking on "Choose a disk file".
 
-### 2.1.3. Installing the needed software
+### 2.1.3. Starting the VM
+After turning the machine on, you will need to go through an 11 step setup.
+
+<img width="647" alt="Screenshot 2023-01-05 at 11 15 08" src="https://user-images.githubusercontent.com/75808145/210902651-45a9dc98-342f-46b1-bac4-f53cc0de012c.png">
+
+# TODO 
+
+Step 1 - Choose your prefered language
+Step 2 - Continue without updating
+Step 3 - Choose done
+Step 2 - Choose your keyboard layout
+Step 3 - Choose "Install Ubuntu"
+Step 4, 5 & 6 - You can skip these steps, press "Done"
+Step 7 - Select "Use an entire disk", confirm your disk choice and press done afterwards
+Step 8 - 
+
+### 2.1.4. Installing the needed software
 We will start by doing some updates.
 
 ```
 sudo apt update -y
-sudo apt-get update
-sudo apt-get install git
 ```
 
 We now want to get this github repository content inside our machine, to do so we need to install git and clone the repo.
 
 ```
-sudo apt-get install git
 git clone https://github.com/andreromao/TheCork.git
 ```
 
