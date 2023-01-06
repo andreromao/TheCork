@@ -100,9 +100,14 @@ sudo ./router1.sh
 
 ### 3.2. Frontend Server
 
-On the Network Tab, enable one Internal Network adapter named subnet1.
+Begin by installing the node dependencies, before removing the default NAT gateway of the template machine
 
+```
+cd frontend
 sudo npm i
+```
+
+On the Network Tab, enable one Internal Network adapter named subnet1.
 
 Now run the Frontend script to finish the configuration
 
@@ -114,9 +119,15 @@ sudo ./frontend.sh
 ```
 
 ### 3.3. Backend Server
-On the Network Tab, enable one Internal Network adapter named subnet2.
 
+Begin by installing the node dependencies, before removing the default NAT gateway of the template machine
+
+```
+cd BackendServer
 sudo npm i
+```
+
+On the Network Tab, enable one Internal Network adapter named subnet3.
 
 Now run the Backend script to finish the configuration
 
@@ -128,9 +139,15 @@ sudo ./backend.sh
 ```
 
 ### 3.4. Auth Server
-On the Network Tab, enable one Internal Network adapter named subnet3 (?).
 
+Begin by installing the node dependencies, before removing the default NAT gateway of the template machine
+
+```
+cd authServer
 sudo npm i
+```
+
+Then on the Network Tab, enable one Internal Network adapter named subnet4.
 
 Now run the Auth Server script to finish the configuration
 
@@ -142,7 +159,7 @@ sudo ./auth.sh
 ```
 
 ### 3.5. Router2
-On the Network Tab, enable two Internal Network adapter named discSubnet and external.
+On the Network Tab, enable three Internal Network adapter named subnet2, subnet3 and subnet4.
 
 Now run the Router2 script to finish the configuration
 
@@ -155,12 +172,14 @@ sudo ./router2.sh
 
 ### 3.6. Discount Backend Server
 
+Begin by installing the node dependencies, before removing the default NAT gateway of the template machine
+
 ```
 cd discount-service
 sudo npm i
 ```
 
-On the Network Tab, enable one Internal Network adapter named discSubnet.
+Then, on the Network Tab, enable one Internal Network adapter named external.
 
 Now run the discount script to finish the configuration
 
