@@ -34,20 +34,19 @@ On the Display Tab you can lower the video memory to 8 MB if you are using a mac
 On the Storage Tab, click under "Controller IDE", where it says "Empty". Next to "Optical Drive", click on the small CD icon to load the Ubuntu Server 22.04.01 ISO image you previously downloaded. You can do so by clicking on "Choose a disk file".
 
 ### 2.1.3. Starting the VM
-After turning the machine on, you will need to go through an 11 step setup wizard.
-
-<img width="647" alt="Screenshot 2023-01-05 at 11 15 08" src="https://user-images.githubusercontent.com/75808145/210902651-45a9dc98-342f-46b1-bac4-f53cc0de012c.png">
-
-# TODO 
+After turning the machine on, select "Try to install ubuntu". After that you will need to go through an 9 step setup wizard.
 
 Step 1 - Choose your prefered language
 Step 2 - Continue without updating
-Step 3 - Choose done
-Step 2 - Choose your keyboard layout
-Step 3 - Choose "Install Ubuntu"
-Step 4, 5 & 6 - You can skip these steps, press "Done"
-Step 7 - Select "Use an entire disk", confirm your disk choice and press done afterwards
-Step 8 - 
+Step 3, 4, 5 & 6 - Choose done
+Step 7 - Create a user
+Step 8 & 9 - Click done
+
+Then wait for all the setup to take place. (This might take a few minutes)
+
+After that, select "Reboot Now"
+
+When the machine starts, be sure to turn it off and remove the CD device used for the installation.
 
 ### 2.1.4. Installing the needed software
 
@@ -57,6 +56,15 @@ Since the scripts are on this github repository we need to clone the repo inside
 
 ```
 git clone https://github.com/andreromao/TheCork.git
+```
+
+After cloning the repository, run an initial script called "template.sh".
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x template.sh
+sudo ./template.sh
 ```
 
 The rest of the configurations are done by running the scripts for each machine. This will be explained in the next steps of the guide.
@@ -84,18 +92,24 @@ The 4th adaptor is a NAT.
 Run the Router1 script
 
 ### 3.2. Frontend Server
+
 On the Network Tab, enable one Internal Network adapter named subnet1.
+
+sudo npm i
 
 Run the Frontend script
 
 ### 3.3. Backend Server
 On the Network Tab, enable one Internal Network adapter named subnet2.
 
+sudo npm i
+
 Run the Backend script
 
 ### 3.4. Auth Server
 On the Network Tab, enable one Internal Network adapter named subnet3 (?).
 
+sudo npm i
 Run the AuthServer script
 
 ### 3.5. Router2
@@ -106,6 +120,7 @@ Run the Router2 script
 ### 3.6. Discount Backend Server
 On the Network Tab, enable one Internal Network adapter named discSubnet.
 
+sudo npm i
 Run the DiscBackend script
 
 ## 4. Testing the system
