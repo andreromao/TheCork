@@ -9,3 +9,6 @@ sudo cp -f backendScriptFiles/sysctl.conf /etc/ufw/sysctl.conf
 
 netplan apply 
 ufw enable
+
+mongoimport -d myReservations --restaurants restaurants --file ../database-exports/restaurants.json —-jsonArray
+mongoimport -d myReservations --schedules schedules --file ../database-exports/schedules.json —-jsonArray
