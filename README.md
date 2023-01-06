@@ -49,7 +49,7 @@ If a user selects a restaurant, they can check out the avalability schedule and 
 
 ![](./screenshots/booking.png)
 
-There is aditionally a backoffice page available to users with the role of `admin` where it is possible to update the schedule, as well as the upcoming reservations, which they can choose to accept or decline.
+There is aditionally a backoffice page available to users with the role of `admin` where it is possible to update the schedule, as well as see the upcoming reservations, which they can choose to accept or decline.
 
 ![](./screenshots/backoffice.png)
 
