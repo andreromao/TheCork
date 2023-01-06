@@ -50,13 +50,10 @@ Step 7 - Select "Use an entire disk", confirm your disk choice and press done af
 Step 8 - 
 
 ### 2.1.4. Installing the needed software
-We will start by doing some updates.
 
-```
-sudo apt update -y
-```
+To install the needed software, we will use some scripts.
 
-We now want to get this github repository content inside our machine, to do so we need to clone the repo.
+Since the scripts are on this github repository we need to clone the repo inside the VM. To do so, type:
 
 ```
 git clone https://github.com/andreromao/TheCork.git
