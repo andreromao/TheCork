@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const reservationSchema = new mongoose.Schema({
     name: String,
@@ -34,7 +34,7 @@ const Reservation = mongoose.model('reservation', reservationSchema);
 const Restaurant = mongoose.model('restaurant', restaurantSchema);
 const Schedule = mongoose.model('schedule', scheduleSchema);
  
-module.exports = {
+export const models = {
     Reservation,
     Restaurant,
     Schedule,

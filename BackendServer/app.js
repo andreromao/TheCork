@@ -1,13 +1,15 @@
-const express = require('express')
-const bodyParser = require("body-parser");
-const mongoose = require('mongoose')
-const models = require('./models');
-const cors = require('cors');
-const https = require('https');
-const fs = require('fs');
-const crypto = require("crypto");
+import express from 'express';
+import bodyParser from "body-parser";
+import mongoose from 'mongoose';
+import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
+import crypto from "crypto";
+import fetch from "node-fetch";
+import { models } from './models.js';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 const app = express();
