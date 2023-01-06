@@ -8,7 +8,6 @@ const https = require('https');
 const fs = require('fs');
 const crypto = require("crypto");
 const { access } = require('fs');
-const { Console } = require('console');
 require('dotenv').config();
 
 const port = 4000;
