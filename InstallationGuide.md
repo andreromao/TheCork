@@ -65,7 +65,7 @@ git clone https://github.com/andreromao/TheCork.git
 The rest of the configurations are done by running the scripts for each machine. This will be explained in the next steps of the guide.
 
 ### 2.2 Creating the rest of the VMs
-We will now clone our "template" VM 5 times, changing the clone's names to "Frontend Server", "Backend Server", "Auth Server", "Router2" and "Discount Backend Server". Change the "template" vm name to "Router1" as well.
+We will now clone our "template" VM 5 times, changing the clone's names to "Frontend Server", "Backend Server", "Auth Server", "Router2" and "Discount Backend Server". We will use the "template" VM as router1, so change its name to "Router1".
 
 - Click `Clone`
 - Select the name you want to give to the new machine
