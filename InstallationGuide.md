@@ -56,7 +56,7 @@ We will start by doing some updates.
 sudo apt update -y
 ```
 
-We now want to get this github repository content inside our machine, to do so we need to install git and clone the repo.
+We now want to get this github repository content inside our machine, to do so we need to clone the repo.
 
 ```
 git clone https://github.com/andreromao/TheCork.git
