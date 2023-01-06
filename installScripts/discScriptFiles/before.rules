@@ -62,18 +62,5 @@
 -A ufw-before-input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
 
 
--A ufw-before-forward -p tcp -d 192.168.3.101 --dport 5173 -j ACCEPT
-
--A ufw-before-forward -p tcp -d 192.168.4.101 --dport 3000 -s 192.168.3.101 -j ACCEPT
-
--A ufw-before-forward -p tcp -d 192.168.5.101 --dport 4000 -s 192.168.3.101 -j ACCEPT
-
--A ufw-before-forward -p tcp -d 192.168.10.101 --dport 5000 -s 192.168.4.101 -j ACCEPT
-
--A ufw-before-input -p tcp -s 192.168.2.101 -j ACCEPT
-
--A ufw-before-input -p tcp -s 192.168.5.101 -j ACCEPT
-
-
 # don't delete the 'COMMIT' line or these rules won't be processed
 COMMIT

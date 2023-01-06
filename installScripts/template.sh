@@ -2,6 +2,9 @@
 
 apt update -y 
 apt install npm -y
+npm cache clean -f
+npm install -g n
+n stable
 
 # Install mongodb
 apt install wget curl gnupg2 software-properties-common apt-transport-https ca-certificates lsb-release -y
