@@ -36,11 +36,11 @@ On the Storage Tab, click under "Controller IDE", where it says "Empty". Next to
 ### 2.1.3. Starting the VM
 After turning the machine on, select "Try to install ubuntu". After that you will need to go through an 9 step setup wizard.
 
-Step 1 - Choose your prefered language
-Step 2 - Continue without updating
-Step 3, 4, 5 & 6 - Choose done
-Step 7 - Create a user
-Step 8 & 9 - Click done
+ - Step 1 - Choose your prefered language
+ - Step 2 - Continue without updating
+ - Step 3, 4, 5 & 6 - Choose done
+ - Step 7 - Create a user
+ - Step 8 & 9 - Click done
 
 Then wait for all the setup to take place. (This might take a few minutes)
 
@@ -80,16 +80,23 @@ We will now clone our "template" VM 5 times, changing the clone's names to "Fron
 ## 3. Configure the VMs
 ### 3.1. Router1
 
-#FIXME vao ser 5 interfaces?
+On the Network Tab, enable all 4 adapters. Adapters 1 will be a NAT, the remaining will be internal networks
 
-On the Network Tab, enable all 4 adapters. Adapters 1, 2 and 3 are Internal Network, give them the following names:
- - Adapter 1 name: subnet1
- - Adapter 2 name: subnet2
- - Adapter 3 name: external
+Give the internal connections these names:
+ - Adapter 2 name: subnet1
+ - Adapter 3 name: subnet2
+ - Adapter 4 name: external
 
-The 4th adaptor is a NAT.
+After setting these configurations, you can run the vm.
 
-Run the Router1 script
+Now run the Router1 script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x router1.sh
+sudo ./router1.sh
+```
 
 ### 3.2. Frontend Server
 
@@ -97,31 +104,72 @@ On the Network Tab, enable one Internal Network adapter named subnet1.
 
 sudo npm i
 
-Run the Frontend script
+Now run the Frontend script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x frontend.sh
+sudo ./frontend.sh
+```
 
 ### 3.3. Backend Server
 On the Network Tab, enable one Internal Network adapter named subnet2.
 
 sudo npm i
 
-Run the Backend script
+Now run the Backend script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x backend.sh
+sudo ./backend.sh
+```
 
 ### 3.4. Auth Server
 On the Network Tab, enable one Internal Network adapter named subnet3 (?).
 
 sudo npm i
-Run the AuthServer script
+
+Now run the Auth Server script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x auth.sh
+sudo ./auth.sh
+```
 
 ### 3.5. Router2
 On the Network Tab, enable two Internal Network adapter named discSubnet and external.
 
-Run the Router2 script
+Now run the Router2 script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x router2.sh
+sudo ./router2.sh
+```
 
 ### 3.6. Discount Backend Server
+
+```
+cd discount-service
+sudo npm i
+```
+
 On the Network Tab, enable one Internal Network adapter named discSubnet.
 
-sudo npm i
-Run the DiscBackend script
+Now run the discount script to finish the configuration
+
+You can find this script in the installationScripts folder. 
+
+```
+sudo chmod +x disc.sh
+sudo ./disc.sh
+```
 
 ## 4. Testing the system
 In your host browser, go to https://localhost
