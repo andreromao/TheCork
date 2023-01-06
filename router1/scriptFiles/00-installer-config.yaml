@@ -2,19 +2,24 @@
 network:
   ethernets:
     enp0s3:
-      dhcp4: no
-      dhcp6: no
-      addresses: [192.168.3.100/24]
-    enp0s8:
       dhcp4: true
       nameservers:
         addresses: [8.8.8.8, 8.8.8.4]
+    enp0s8:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.3.100/24]
     enp0s9:
       dhcp4: no
       dhcp6: no
       addresses: [192.168.2.100/24]
+      routes:
+        - to: 192.168.4.0/24
+          via: 192.168.2.110
+        - to: 192.168.4.0/24
+          via: 192.168.2.110
     enp0s10:
       dhcp4: no
       dhcp6: no
-      addresses: [192.168.4.100/24]
+      addresses: [192.168.10.100/24]
   version: 2
